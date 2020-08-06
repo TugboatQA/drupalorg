@@ -17,7 +17,11 @@ services:
         - chgrp -R www-data sites/default/files
         - chmod 2775 sites/default/files
         - chmod -R g+w sites/default/files
-        - vendor/bin/drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
+        - vendor/bin/drush --yes
+          --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat
+          --account-name=admin
+          --account-pass=tugboat
+          site:install standard
       build:
         # We need to install drush again because Tugboat stashes changes to
         # composer.json.
