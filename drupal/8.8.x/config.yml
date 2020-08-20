@@ -19,6 +19,7 @@ services:
         - chmod -R g+w sites/default/files
         - vendor/bin/drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
       build:
+        - sed -i 's/self\.version/~8\.8\.0/g' composer.json
         - composer install --optimize-autoloader
         - composer require drush/drush
         - vendor/bin/drush updb
