@@ -19,9 +19,8 @@ services:
         - chmod -R g+w sites/default/files
         - vendor/bin/drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
       build:
-        # We need to install drush again because Tugboat stashes changes to
-        # composer.json.
         - composer install --optimize-autoloader
+        - composer require drush/drush
         - vendor/bin/drush updb
         - vendor/bin/drush cache:rebuild
     visualdiffs:
