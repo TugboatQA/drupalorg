@@ -20,6 +20,7 @@ services:
         - drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
       build:
         - composer install --optimize-autoloader
+        - composer require drush/drush
         - drush updatedb -y
         - drush cache:rebuild
   mysql:
