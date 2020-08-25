@@ -1,31 +1,30 @@
 services:
-  php73:
+  php:
     image: tugboatqa/php:7.3-apache
     default: true
-    depends:
-      - mysql
+    depends: mysql
     commands:
       init:
-        - a2enmod headers rewrite
         - docker-php-ext-install opcache
-        - ln -snf $TUGBOAT_ROOT $DOCROOT
+        - a2enmod headers rewrite
+        - wget -O /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar
+        - chmod +x /usr/local/bin/drush
+        - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
+        - ln -snf "${TUGBOAT_ROOT}/config" "${DOCROOT}/../config"
+        - ln -snf "${TUGBOAT_ROOT}/files-private" "${DOCROOT}/../files-private"
+
       update:
         - composer install --optimize-autoloader
-        - composer require drush/drush
-        - mkdir -p sites/default/files
-        - chgrp -R www-data sites/default/files
-        - chmod 2775 sites/default/files
-        - chmod -R g+w sites/default/files
-        - vendor/bin/drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
+        - chgrp -R www-data "${DOCROOT}/sites/default/files"
+        - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
+        - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
+        - drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
+
       build:
         - composer install --optimize-autoloader
-        - composer require drush/drush
-        - vendor/bin/drush updb
-        - vendor/bin/drush cache:rebuild
-    visualdiffs:
-      - /
-      - /node
-      - /user/login
-      - /contact
+        - drush updatedb -y
+        - drush cache:rebuild
+        - drush config:import -y
+        - drush cache:rebuild
   mysql:
     image: tugboatqa/mariadb:10
