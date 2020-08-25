@@ -22,7 +22,5 @@ services:
         - composer install --optimize-autoloader
         - drush updatedb -y
         - drush cache:rebuild
-        - drush config:import -y
-        - drush cache:rebuild
   mysql:
     image: tugboatqa/mariadb:10
