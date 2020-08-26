@@ -11,7 +11,7 @@ services:
         - wget -O /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar
         - chmod +x /usr/local/bin/drush
       update:
-        - sed -i "s/self\.version/${TUGBOAT_PREVIEW}/g" composer.json
+        - sed -i "s/self\.version/${TUGBOAT_PREVIEW:-$GITLAB_TARGET}/g" composer.json
         - composer install --optimize-autoloader
         - composer require drush/drush
         - mkdir "${DOCROOT}/sites/default/files"
@@ -20,7 +20,7 @@ services:
         - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
         - drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
       build:
-        - sed -i "s/self\.version/${TUGBOAT_BASE_PREVIEW}/g" composer.json
+        - sed -i "s/self\.version/${TUGBOAT_PREVIEW:-$GITLAB_TARGET}/g" composer.json
         - composer install --optimize-autoloader
         - composer require drush/drush
         - drush updatedb -y
