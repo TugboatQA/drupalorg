@@ -19,6 +19,7 @@ services:
         - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
         - drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
       build:
+        - rm -f composer.lock
         - composer install --optimize-autoloader
         - composer require drush/drush
         - drush updatedb -y
