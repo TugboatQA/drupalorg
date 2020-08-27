@@ -8,7 +8,7 @@ services:
         - docker-php-ext-install opcache
         - a2enmod headers rewrite
         - ln -snf $TUGBOAT_ROOT $DOCROOT
-        - composer global require drush/drush:9.*
+        - composer global require drush/drush:8.*
         - ln -s ~/.composer/vendor/bin/drush /usr/local/bin/drush
       update:
         - mkdir -p "${DOCROOT}/sites/default/files"
