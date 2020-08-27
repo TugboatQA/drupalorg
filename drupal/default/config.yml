@@ -14,7 +14,7 @@ services:
         - sed -i "s/self\.version/${TUGBOAT_GITLAB_TARGET:-$TUGBOAT_PREVIEW}/g" composer.json
         - composer install --optimize-autoloader
         - composer require drush/drush
-        - mkdir "${DOCROOT}/sites/default/files"
+        - mkdir -p "${DOCROOT}/sites/default/files"
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
         - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
         - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
