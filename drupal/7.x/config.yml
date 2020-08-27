@@ -18,6 +18,6 @@ services:
         - drush --yes --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=tugboat site:install standard
       build:
         - drush updatedb -y
-        - drush cache:rebuild
+        - drush cc all
   mysql:
     image: tugboatqa/mariadb:10
