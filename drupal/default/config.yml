@@ -10,6 +10,7 @@ services:
         - ln -snf $TUGBOAT_ROOT $DOCROOT
         - wget -O /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar
         - chmod +x /usr/local/bin/drush
+        - echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini
       update:
         - sed -i "s/self\.version/${TUGBOAT_GITLAB_TARGET:-$TUGBOAT_PREVIEW}/g" composer.json
         - composer install --optimize-autoloader
