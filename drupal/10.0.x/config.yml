@@ -1,6 +1,6 @@
 services:
   php:
-    image: tugboatqa/php:8.0.14-apache
+    image: tugboatqa/php:8.0-apache
     default: true
     depends: mysql
     commands:
@@ -14,7 +14,7 @@ services:
       update:
         - sed -i "s/self\.version/${TUGBOAT_GITLAB_TARGET:-$TUGBOAT_PREVIEW}/g" composer.json
         - composer install --optimize-autoloader
-        - composer require drush/drush:11.0.0-rc7
+        - composer require drush/drush
         - mkdir -p "${DOCROOT}/sites/default/files"
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
         - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
