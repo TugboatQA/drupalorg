@@ -14,7 +14,7 @@ services:
       update:
         - sed -i "s/self\.version/${TUGBOAT_GITLAB_TARGET:-$TUGBOAT_PREVIEW}/g" composer.json
         - composer install --optimize-autoloader
-        - composer require drush/drush
+        - composer require drush/drush:^10
         - mkdir -p "${DOCROOT}/sites/default/files"
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
         - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
@@ -23,7 +23,7 @@ services:
       build:
         - sed -i "s/self\.version/${TUGBOAT_GITLAB_TARGET:-$TUGBOAT_PREVIEW}/g" composer.json
         - composer install --optimize-autoloader
-        - composer require drush/drush
+        - composer require drush/drush:^10
         - drush updatedb -y
         - drush cache:rebuild
   mysql:
