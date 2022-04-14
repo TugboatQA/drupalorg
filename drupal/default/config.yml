@@ -1,6 +1,6 @@
 services:
   php:
-    image: tugboatqa/php:7.3-apache
+    image: tugboatqa/php:7.4-apache
     default: true
     depends: mysql
     commands:
@@ -11,8 +11,7 @@ services:
         - wget -O /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar
         - chmod +x /usr/local/bin/drush
         - echo "memory_limit = 2G" >> /usr/local/etc/php/conf.d/my-php.ini
-        - composer self-update --1
-      update:
+     update:
         - sed -i "s/self\.version/${TUGBOAT_GITLAB_TARGET:-$TUGBOAT_PREVIEW}/g" composer.json
         - composer install --optimize-autoloader
         - composer require drush/drush
